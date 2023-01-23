@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        input {
+            font-family: sans-serif;
+            font-size: 50px;
+            width: 100%;
+            height: 75px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Calculator</h1>
+
+    <form action="/" method="POST">
+        <table style="table-layout:fixed; width:500px;">
+            <tr>
+                <td colspan="4" bgcolor="black"
+                    style="text-align:right; font-family:monospace; font-size:75px; color:lime;">{{display}}</td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="exponent" value="x^y"></td>
+                <td><input type="submit" name="root" value="x√y"></td>
+                <td><input type="submit" name="clear" value="C"></td>
+                <td><input type="submit" name="backspace" value="←"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="seven" value="7"></td>
+                <td><input type="submit" name="eight" value="8"></td>
+                <td><input type="submit" name="nine" value="9"></td>
+                <td><input type="submit" name="divide" value="÷"></button></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="four" value="4"></td>
+                <td><input type="submit" name="five" value="5"></td>
+                <td><input type="submit" name="six" value="6"></td>
+                <td><input type="submit" name="multiply" value="x"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="one" value="1"></td>
+                <td><input type="submit" name="two" value="2"></td>
+                <td><input type="submit" name="three" value="3"></td>
+                <td><input type="submit" name="minus" value="–"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="sign" value="+/-"></td>
+                <td><input type="submit" name="zero" value="0"></td>
+                <td><input type="submit" name="point" value="."></td>
+                <td><input type="submit" name="plus" value="+"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><input type="submit" name="equals" value="="></button></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+
+</html>
