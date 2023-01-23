@@ -3,6 +3,9 @@ from flask import Flask,redirect,url_for,render_template,request
 app=Flask(__name__)
 
 display = "0"
+numberA = float(0)
+numberB = float(0)
+operation = ""
 
 # Base URL
 @app.route("/",methods=["GET","POST"])
@@ -52,68 +55,79 @@ def index():
         if request.form.get("backspace"):
             button="backspace"
     update_display(button)
-    return render_template("index.html",display=display)
+    return render_template("index.html",display_string=display)
         
 
 
 def update_display(button):
     global display
 
-    # Convert 0 to empty string
-    if display=="0":
-        display=""
-
     # Do action depending on button
     if button=="zero":
-        display += "0"
+        insert_digit("0")
     
     elif button=="one":
-        display += "1"
+        insert_digit("1")
     
     elif button=="two":
-        display += "2"
+        insert_digit("2")
     
     elif button=="three":
-        display += "3"
+        insert_digit("3")
     
     elif button=="four":
-        display += "4"
+        insert_digit("4")
     
     elif button=="five":
-        display += "5"
+        insert_digit("5")
     
     elif button=="six":
-        display += "6"
+        insert_digit("6")
     
     elif button=="seven":
-        display += "7"
+        insert_digit("7")
     
     elif button=="eight":
-        display += "8"
+        insert_digit("8")
     
     elif button=="nine":
-        display += "9"
+        insert_digit("9")
     
     elif button=="sign":
-        if len(display)>0:
-            if display[0] == "-":
-                display = display[1:]
-            else:
-                display = "-" + display
+        if display[0] == "-":
+            display = display[1:]
+        elif display!="0":
+            display = "-" + display
     
     elif button=="point":
         if not "." in display:
             display += "."
 
+    elif button=="plus":
+        numberA=float(display)
+        display="0"
+        print(numberA)
+
     elif button=="clear":
-        display=""
+        display="0"
     
     elif button=="backspace":
         display = display[:-1]
+        if len(display)==0 or display=="-0" or display=="-":
+            display="0"
 
-    # Convert empty string to 0
-    if display=="":
-        display="0"
+
+
+def insert_digit(digit):
+    global display
+    if display=="0":
+        display=digit
+    else:
+        digit_count=0
+        for d in range(0, 9):
+            digit_count += display.count(str(d))    
+        if digit_count<10:
+            display+=digit
 
 
 if __name__=="__main__":
