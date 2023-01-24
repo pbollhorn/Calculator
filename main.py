@@ -3,9 +3,11 @@ from flask import Flask,redirect,url_for,render_template,request
 app=Flask(__name__)
 
 display = "0"
+operation = "nothing"
 numberA = float(0)
 numberB = float(0)
-operation = ""
+oldB = float(0)
+
 
 # Base URL
 @app.route("/",methods=["GET","POST"])
@@ -48,12 +50,12 @@ def index():
             button="exponent"
         if request.form.get("root"):
             button="root"
-        if request.form.get("equals"):
-            button="equals"
         if request.form.get("clear"):
             button="clear"
         if request.form.get("backspace"):
             button="backspace"
+        if request.form.get("equals"):
+            button="equals"
     update_display(button)
     return render_template("index.html",display_string=display)
         
@@ -61,6 +63,10 @@ def index():
 
 def update_display(button):
     global display
+    global operation
+    global numberA
+    global numberB
+    global oldB
 
     # Do action depending on button
     if button=="zero":
@@ -104,35 +110,79 @@ def update_display(button):
             display += "."
 
     elif button=="plus":
+        operation="plus"
         numberA=float(display)
         display="0"
-        print(numberA)
+
+    elif button=="minus":            
+        operation="minus"
+        numberA=float(display)
+        display="0"
+
+    elif button=="multiply":
+        operation="multiply"
+        numberA=float(display)
+        display="0"
+
+    elif button=="divide":
+        operation="divide"
+        numberA=float(display)
+        display="0"
+
+    elif button=="exponent":
+        operation="exponent"
+        numberA=float(display)
+        display="0"
+
+    elif button=="root":
+        operation="root"
+        numberA=float(display)
+        display="0"
 
     elif button=="clear":
         display="0"
+        operation = "nothing"
     
     elif button=="backspace":
         display = display[:-1]
         if len(display)==0 or display=="-0" or display=="-":
             display="0"
 
+    elif button=="equals":
+
+        #numberB=float(display)
+
+        if operation=="nothing":
+            numberA = float(display)
+        elif operation=="plus":
+            numberA = numberA + float(display)
+        elif operation=="minus":
+            numberA = numberA - float(display)
+        elif operation=="multiply":
+            numberA = numberA * float(display)
+        elif operation=="divide":
+            numberA = numberA / float(display)
+
+
+
+
+        display=str(numberA)
 
 
 def insert_digit(digit):
     global display
+
     if display=="0":
         display=digit
     else:
         digit_count=0
-        for d in range(0, 9):
-            digit_count += display.count(str(d))    
+        for d in range(0, 10):
+            digit_count += display.count(str(d))   
         if digit_count<10:
             display+=digit
 
 
+
+# Run the app, Debug=True should be changed before deployment
 if __name__=="__main__":
-    app.run(debug=True) # Debug=True should be changed before deployment
-
-
-
-
+    app.run(debug=True)
