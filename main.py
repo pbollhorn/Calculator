@@ -10,7 +10,12 @@ prevbutton = "zero"
 numberA = float(0)
 numberB = float(0)
 digit_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
-operations_set = set(["plus", "minus", "multiply", "divide", "exponent", "root"])
+operation_set = set(["plus", "minus", "multiply", "divide"])
+
+# Build button_set which contains all buttons including digit_set and operation_set
+button_set = set(["sign","point","clear","backspace","equals"])
+button_set.update(digit_set)
+button_set.update(operation_set)
 
 
 # Base URL
@@ -18,51 +23,18 @@ operations_set = set(["plus", "minus", "multiply", "divide", "exponent", "root"]
 def index():
     global prevbutton
     button=""
+    
+    # Find out which button was pressed
     if request.method == "POST":
-        if request.form.get("zero"):
-            button="0"
-        if request.form.get("one"):
-            button="1"
-        if request.form.get("two"):
-            button="2"
-        if request.form.get("three"):
-            button="3"
-        if request.form.get("four"):
-            button="4"
-        if request.form.get("five"):
-            button="5"
-        if request.form.get("six"):
-            button="6"
-        if request.form.get("seven"):
-            button="7"
-        if request.form.get("eight"):
-            button="8"
-        if request.form.get("nine"):
-            button="9"
-        if request.form.get("sign"):
-            button="sign"
-        if request.form.get("point"):
-            button="point"
-        if request.form.get("plus"):
-            button="plus"
-        if request.form.get("minus"):
-            button="minus"
-        if request.form.get("multiply"):
-            button="multiply"
-        if request.form.get("divide"):
-            button="divide"
-        if request.form.get("exponent"):
-            button="exponent"
-        if request.form.get("root"):
-            button="root"
-        if request.form.get("clear"):
-            button="clear"
-        if request.form.get("backspace"):
-            button="backspace"
-        if request.form.get("equals"):
-            button="equals"
+        for b in button_set:
+            if request.form.get("button_"+b):
+                button=b
+
+    # Update display according to this button press
     update_display(button)
     prevbutton=button
+
+    # Re-render html page
     return render_template("index.html",display_string=display)
         
 
@@ -88,8 +60,8 @@ def update_display(button):
         if not "." in display:
             display += "."
 
-    elif button in operations_set:
-        if prevbutton!="equals" and prevbutton not in operations_set:
+    elif button in operation_set:
+        if prevbutton!="equals" and prevbutton not in operation_set:
             calculate()
         operation=button
         numberA=float(display)
@@ -136,10 +108,6 @@ def calculate():
             numberA=float("NAN")
         else:
             numberA = numberA / numberB
-    elif operation == "exponent":
-        numberA = numberA ** numberB
-    elif operation == "root":
-        numberA = numberB ** (1/numberA)
 
     # Write new numberA to display
     display = format_display(numberA)
@@ -190,7 +158,7 @@ def insert_digit(digit):
     global display
     global prevbutton
 
-    if display=="0" or prevbutton in operations_set:
+    if display=="0" or prevbutton in operation_set:
         display=digit
     else:
         digit_count=0
