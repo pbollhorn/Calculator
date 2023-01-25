@@ -1,39 +1,44 @@
+import math
 from flask import Flask,redirect,url_for,render_template,request
+
 
 app=Flask(__name__)
 
 display = "0"
-operation = "nothing"
+operation = "plus"
+prevbutton = "zero"
 numberA = float(0)
 numberB = float(0)
-oldB = float(0)
+digit_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+operations_set = set(["plus", "minus", "multiply", "divide", "exponent", "root"])
 
 
 # Base URL
 @app.route("/",methods=["GET","POST"])
 def index():
+    global prevbutton
     button=""
     if request.method == "POST":
         if request.form.get("zero"):
-            button="zero"
+            button="0"
         if request.form.get("one"):
-            button="one"
+            button="1"
         if request.form.get("two"):
-            button="two"
+            button="2"
         if request.form.get("three"):
-            button="three"
+            button="3"
         if request.form.get("four"):
-            button="four"
+            button="4"
         if request.form.get("five"):
-            button="five"
+            button="5"
         if request.form.get("six"):
-            button="six"
+            button="6"
         if request.form.get("seven"):
-            button="seven"
+            button="7"
         if request.form.get("eight"):
-            button="eight"
+            button="8"
         if request.form.get("nine"):
-            button="nine"
+            button="9"
         if request.form.get("sign"):
             button="sign"
         if request.form.get("point"):
@@ -57,6 +62,7 @@ def index():
         if request.form.get("equals"):
             button="equals"
     update_display(button)
+    prevbutton=button
     return render_template("index.html",display_string=display)
         
 
@@ -64,40 +70,13 @@ def index():
 def update_display(button):
     global display
     global operation
+    global prevbutton
     global numberA
     global numberB
-    global oldB
 
     # Do action depending on button
-    if button=="zero":
-        insert_digit("0")
-    
-    elif button=="one":
-        insert_digit("1")
-    
-    elif button=="two":
-        insert_digit("2")
-    
-    elif button=="three":
-        insert_digit("3")
-    
-    elif button=="four":
-        insert_digit("4")
-    
-    elif button=="five":
-        insert_digit("5")
-    
-    elif button=="six":
-        insert_digit("6")
-    
-    elif button=="seven":
-        insert_digit("7")
-    
-    elif button=="eight":
-        insert_digit("8")
-    
-    elif button=="nine":
-        insert_digit("9")
+    if button in digit_set:
+        insert_digit(button)
     
     elif button=="sign":
         if display[0] == "-":
@@ -109,39 +88,18 @@ def update_display(button):
         if not "." in display:
             display += "."
 
-    elif button=="plus":
-        operation="plus"
+    elif button in operations_set:
+        if prevbutton!="equals" and prevbutton not in operations_set:
+            calculate()
+        operation=button
         numberA=float(display)
-        display="0"
-
-    elif button=="minus":            
-        operation="minus"
-        numberA=float(display)
-        display="0"
-
-    elif button=="multiply":
-        operation="multiply"
-        numberA=float(display)
-        display="0"
-
-    elif button=="divide":
-        operation="divide"
-        numberA=float(display)
-        display="0"
-
-    elif button=="exponent":
-        operation="exponent"
-        numberA=float(display)
-        display="0"
-
-    elif button=="root":
-        operation="root"
-        numberA=float(display)
-        display="0"
 
     elif button=="clear":
-        display="0"
-        operation = "nothing"
+        display = "0"
+        operation = "plus"
+        prevbutton = "zero"
+        numberA = float(0)
+        numberB = float(0)
     
     elif button=="backspace":
         display = display[:-1]
@@ -149,30 +107,90 @@ def update_display(button):
             display="0"
 
     elif button=="equals":
-
-        #numberB=float(display)
-
-        if operation=="nothing":
-            numberA = float(display)
-        elif operation=="plus":
-            numberA = numberA + float(display)
-        elif operation=="minus":
-            numberA = numberA - float(display)
-        elif operation=="multiply":
-            numberA = numberA * float(display)
-        elif operation=="divide":
-            numberA = numberA / float(display)
+        calculate()
 
 
 
 
-        display=str(numberA)
+def calculate():
+    global display
+    global prevbutton
+    global numberA
+    global numberB
+
+    # If previous button is "equals" keep old numberB, else get new numberB from display
+    if prevbutton=="equals":
+        pass
+    else:
+        numberB=float(display)
+
+    # Perform operation to get new numberA
+    if operation == "plus":
+        numberA = numberA + numberB
+    elif operation == "minus":
+        numberA = numberA - numberB
+    elif operation == "multiply":
+        numberA = numberA * numberB
+    elif operation == "divide":
+        if numberB==0:
+            numberA=float("NAN")
+        else:
+            numberA = numberA / numberB
+    elif operation == "exponent":
+        numberA = numberA ** numberB
+    elif operation == "root":
+        numberA = numberB ** (1/numberA)
+
+    # Write new numberA to display
+    display = format_display(numberA)
+
+
+
+# Function for converting number to string to be written to display
+def format_display(number: float) -> str:
+    
+    # Return NAN in case of overflow
+    if number > 9999999999 or number < -9999999999:
+        return "NAN"
+
+    # Number of digits before point
+    if abs(number) >= 1:
+        digits_before = int(math.log10(abs(number)))+1
+    else:
+        digits_before = 1
+
+    # Number of digits after point (10 digits allowed in total)
+    digits_after = 10 - digits_before
+
+    # Format number as string with fixed number of digits after point
+    string = ("{:." + str(digits_after) + "F}").format(number)
+
+    # Remove trailing zeros after point
+    if string.find(".")!=-1:
+        while string[-1]=="0":
+            string = string[:-1]
+
+    # Remove trailing point
+    if string[-1]==".":
+        string = string[:-1]
+
+    # Convert "-0" to 0
+    if string=="-0":
+        string="0"
+
+    # Return the string
+    return string
+
+
+
+
 
 
 def insert_digit(digit):
     global display
+    global prevbutton
 
-    if display=="0":
+    if display=="0" or prevbutton in operations_set:
         display=digit
     else:
         digit_count=0
