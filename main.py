@@ -5,14 +5,14 @@ from flask import Flask,redirect,url_for,render_template,request
 app=Flask(__name__)
 
 display = "0"
-operation = "plus"
+operation = ""
 prevbutton = "zero"
 numberA = float(0)
 numberB = float(0)
 digit_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
 operation_set = set(["plus", "minus", "multiply", "divide"])
 
-# Build button_set which contains all buttons including digit_set and operation_set
+# Build button_set which includes digit_set and operation_set
 button_set = set(["sign","point","clear","backspace","equals"])
 button_set.update(digit_set)
 button_set.update(operation_set)
@@ -51,14 +51,21 @@ def update_display(button):
         insert_digit(button)
     
     elif button=="sign":
-        if display[0] == "-":
-            display = display[1:]
-        elif display!="0":
-            display = "-" + display
+        if prevbutton=="equals" or prevbutton in operation_set:
+            display="-0"
+        else:
+            if display!="NAN":
+                display = "-" + display
+            elif display[0] == "-":
+                display = display[1:]
+        
     
     elif button=="point":
-        if not "." in display:
-            display += "."
+        if prevbutton=="equals" or prevbutton in operation_set:
+            display="0."
+        else:
+            if not "." in display and display!="NAN":
+                display += "."
 
     elif button in operation_set:
         if prevbutton!="equals" and prevbutton not in operation_set:
@@ -68,7 +75,7 @@ def update_display(button):
 
     elif button=="clear":
         display = "0"
-        operation = "plus"
+        operation = ""
         prevbutton = "zero"
         numberA = float(0)
         numberB = float(0)
@@ -90,14 +97,15 @@ def calculate():
     global numberA
     global numberB
 
-    # If previous button is "equals" keep old numberB, else get new numberB from display
-    if prevbutton=="equals":
-        pass
-    else:
+    # If previous button is not "equals" get new numberB from display,
+    # otherwise keep old numberB
+    if prevbutton!="equals":
         numberB=float(display)
 
     # Perform operation to get new numberA
-    if operation == "plus":
+    if operation=="":
+        numberA = float(display)
+    elif operation == "plus":
         numberA = numberA + numberB
     elif operation == "minus":
         numberA = numberA - numberB
@@ -110,12 +118,12 @@ def calculate():
             numberA = numberA / numberB
 
     # Write new numberA to display
-    display = format_display(numberA)
+    display = format_number(numberA)
 
 
 
 # Function for converting number to string to be written to display
-def format_display(number: float) -> str:
+def format_number(number: float) -> str:
     
     # Return NAN in case of overflow
     if number > 9999999999 or number < -9999999999:
@@ -158,8 +166,10 @@ def insert_digit(digit):
     global display
     global prevbutton
 
-    if display=="0" or prevbutton in operation_set:
+    if display=="0" or prevbutton=="equals" or prevbutton in operation_set:
         display=digit
+    elif display=="-0":
+        display="-"+digit
     else:
         digit_count=0
         for d in range(0, 10):
