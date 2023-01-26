@@ -1,1 +1,1 @@
-"My Python Flask web calculator" 
+Python Flask web calculator

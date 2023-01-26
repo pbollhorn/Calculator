@@ -1,36 +1,40 @@
 import math
 
+# Initialize variables used with global keyword
+display = "0"
+operation = ""
+prev_button = ""
+numberA = float(0)
+numberB = float(0)
 
+# Define digit_set and operation_set
 digit_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
 operation_set = set(["plus", "minus", "multiply", "divide"])
 
-# Build button_set which includes digit_set and operation_set
+# Define button_set which includes digit_set and operation_set
 button_set = set(["sign","point","clear","backspace", "equals"])
 button_set.update(digit_set)
 button_set.update(operation_set)
 
 
-
-
-def reset(also_display: bool):
+def reset(reset_display: bool):
+    """Function for resetting calculator"""
     global display
     global operation
     global prev_button
     global numberA
     global numberB
     
-    if also_display==True:
+    if reset_display==True:
         display = "0"
-
     operation = ""
-    prev_button = "zero"
+    prev_button = ""
     numberA = float(0)
     numberB = float(0)
 
 
-
-
 def update_display(button):
+    """Function for updating calculator display according to button press"""
     global display
     global operation
     global prev_button
@@ -41,9 +45,8 @@ def update_display(button):
     if button=="clear":
         reset(True)
 
-    # Return immediately if display contains ERROR,
-    # because only clear button is allowed in this case
-    elif display=="ERROR       ":
+    # Return immediately if display contains ERROR, because only clear button is allowed in this case
+    elif display=="ERROR":
         return
 
     # Do action for digit buttons
@@ -68,8 +71,6 @@ def update_display(button):
         if digit_count<10:
             display+=button
         
-        
-    
     # Do action for sign button
     elif button=="sign":
         
@@ -122,22 +123,18 @@ def update_display(button):
     elif button=="equals":
         calculate()
 
-
-
-
-
-
-
+    # Set prev_button to current button
+    prev_button=button
 
 
 def calculate():
+    """Function for calculating result of numberA operation numberB"""
     global display
     global prev_button
     global numberA
     global numberB
 
-    # If previous button is not "equals" get new numberB from display,
-    # otherwise keep old numberB
+    # If previous button is not "equals" get new numberB from display, otherwise keep old numberB
     if prev_button!="equals":
         numberB=float(display)
 
@@ -157,23 +154,12 @@ def calculate():
             numberA = numberA / numberB
 
     # Write new numberA to display
-    display = format_number(numberA)
+    display = display_number(numberA)
 
 
+def display_number(number: float) -> str:
+    """Function for converting number to string to be written to display"""
 
-
-
-
-
-
-
-
-
-
-
-# Function for converting number to string to be written to display
-def format_number(number: float) -> str:
-    
     # Return ERROR in case of NAN or overflow
     if math.isnan(number) or number > 9999999999 or number < -9999999999:
         return "ERROR       "
