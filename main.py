@@ -4,16 +4,35 @@ from flask import Flask,redirect,url_for,render_template,request
 
 app=Flask(__name__)
 
-display = "0"
-operation = ""
-prevbutton = "zero"
-numberA = float(0)
-numberB = float(0)
+
+
+
+
+def reset(also_display: bool):
+    global display
+    global operation
+    global prev_button
+    global numberA
+    global numberB
+    
+    if also_display==True:
+        display = "0"
+
+    operation = ""
+    prev_button = "zero"
+    numberA = float(0)
+    numberB = float(0)
+
+
+
+reset(True)
+
+
 digit_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
 operation_set = set(["plus", "minus", "multiply", "divide"])
 
 # Build button_set which includes digit_set and operation_set
-button_set = set(["sign","point","clear","backspace","equals"])
+button_set = set(["sign","point","clear","backspace", "equals"])
 button_set.update(digit_set)
 button_set.update(operation_set)
 
@@ -21,7 +40,7 @@ button_set.update(operation_set)
 # Base URL
 @app.route("/",methods=["GET","POST"])
 def index():
-    global prevbutton
+    global prev_button
     button=""
     
     # Find out which button was pressed
@@ -32,7 +51,7 @@ def index():
 
     # Update display according to this button press
     update_display(button)
-    prevbutton=button
+    prev_button=button
 
     # Re-render html page
     return render_template("index.html",display_string=display)
@@ -42,49 +61,92 @@ def index():
 def update_display(button):
     global display
     global operation
-    global prevbutton
+    global prev_button
     global numberA
     global numberB
 
-    # Do action depending on button
-    if button in digit_set:
-        insert_digit(button)
-    
-    elif button=="sign":
-        if prevbutton=="equals" or prevbutton in operation_set:
-            display="-0"
-        else:
-            if display!="NAN":
-                display = "-" + display
-            elif display[0] == "-":
-                display = display[1:]
+    # Do action for clear button
+    if button=="clear":
+        reset(True)
+
+    # Return immediately if display contains ERROR,
+    # because only clear button is allowed in this case
+    elif display=="ERROR       ":
+        return
+
+    # Do action for digit buttons
+    elif button in digit_set:
+        if prev_button=="equals":
+            reset(True)
+
+        if display=="0" or prev_button in operation_set:
+            display=button
+            return
+
+        if display == "-0":
+            display = "-" + button
+            return
+
+        # Count number of digits already in display
+        digit_count = 0
+        for d in range(0, 10):
+            digit_count += display.count(str(d))
+
+        # If digit count is less than 10, insert new digit   
+        if digit_count<10:
+            display+=button
+        
         
     
-    elif button=="point":
-        if prevbutton=="equals" or prevbutton in operation_set:
-            display="0."
+    # Do action for sign button
+    elif button=="sign":
+        
+        if prev_button=="equals":
+            reset(False)
+        
+        if prev_button in operation_set:
+            display="-0"
+            return
+        
+        if display[0] == "-":
+            display = display[1:]
         else:
-            if not "." in display and display!="NAN":
-                display += "."
+            display = "-" + display 
+                
+        
+    # Do action for point button
+    elif button=="point":
+        
+        if prev_button=="equals":
+            reset(True)
+        
+        if prev_button in operation_set:
+            display="0."
+            return
 
+        if not "." in display:
+            display += "."
+
+    # Do action for operation buttons
     elif button in operation_set:
-        if prevbutton!="equals" and prevbutton not in operation_set:
+        if prev_button!="equals" and prev_button not in operation_set:
             calculate()
-        operation=button
         numberA=float(display)
-
-    elif button=="clear":
-        display = "0"
-        operation = ""
-        prevbutton = "zero"
-        numberA = float(0)
-        numberB = float(0)
+        operation=button
     
+    # Do action for backspace button
     elif button=="backspace":
+        
+        if prev_button=="equals":
+            reset(False)
+        
+        # Remove last character from display
         display = display[:-1]
-        if len(display)==0 or display=="-0" or display=="-":
+
+        if display=="" or display=="-":
             display="0"
 
+    # Do action for equals button
     elif button=="equals":
         calculate()
 
@@ -93,13 +155,13 @@ def update_display(button):
 
 def calculate():
     global display
-    global prevbutton
+    global prev_button
     global numberA
     global numberB
 
     # If previous button is not "equals" get new numberB from display,
     # otherwise keep old numberB
-    if prevbutton!="equals":
+    if prev_button!="equals":
         numberB=float(display)
 
     # Perform operation to get new numberA
@@ -125,9 +187,9 @@ def calculate():
 # Function for converting number to string to be written to display
 def format_number(number: float) -> str:
     
-    # Return NAN in case of overflow
-    if number > 9999999999 or number < -9999999999:
-        return "NAN"
+    # Return ERROR in case of NAN or overflow
+    if math.isnan(number) or number > 9999999999 or number < -9999999999:
+        return "ERROR       "
 
     # Number of digits before point
     if abs(number) >= 1:
@@ -158,24 +220,6 @@ def format_number(number: float) -> str:
     return string
 
 
-
-
-
-
-def insert_digit(digit):
-    global display
-    global prevbutton
-
-    if display=="0" or prevbutton=="equals" or prevbutton in operation_set:
-        display=digit
-    elif display=="-0":
-        display="-"+digit
-    else:
-        digit_count=0
-        for d in range(0, 10):
-            digit_count += display.count(str(d))   
-        if digit_count<10:
-            display+=digit
 
 
 
