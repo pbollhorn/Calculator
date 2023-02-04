@@ -40,6 +40,13 @@ def reset(reset_display: bool):
     numberB = float(0)
 
 
+def press_button(button):
+    """Function for pressing button on calculator"""
+    global prev_button
+    update_display(button)
+    prev_button = button
+
+
 def update_display(button):
     """Function for updating calculator display according to button press"""
     global display

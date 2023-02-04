@@ -13,10 +13,8 @@ def fun():
         # (calculator button "1" is called "button_1" on HTML page etc.)
         for button in calculator.button_set:
             if request.form.get("button_"+button):
-                # Update calculator display according to this button press
-                calculator.update_display(button)
-                # Save this button press as prev_button
-                calculator.prev_button = button
+                # Send pressed button to calculator, so it can update its display accordingly
+                calculator.press_button(button)
 
     # (Re)render HTML page with fresh calculator display
     return render_template("index.html", calculator_display=calculator.display)
