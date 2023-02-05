@@ -29,7 +29,7 @@ These commands have been tested with Docker Desktop for Windows. They are to be 
 
 1. Start Docker Desktop by clicking on desktop icon.
 
-2. Build Docker image (command promt must be in project root directory for this command):
+2. Build Docker image (command promt must be in root directory of project for this command):
 
     `docker build --tag calculator_image .`
 
@@ -41,7 +41,7 @@ These commands have been tested with Docker Desktop for Windows. They are to be 
 
     `docker start calculator_container`
 
-5. Open "http://localhost:5001/" in a browser to use the Flask app
+5. Open http://localhost:5001/ in a browser to use the Flask app
 
 6. Stop Docker container:
 
