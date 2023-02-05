@@ -20,6 +20,6 @@ def fun():
     return render_template("index.html", calculator_display=calculator.display)
 
 
-# Run the Flask app (debug=True can be removed)
+# Run the Flask app and tell it to use port 5001 (debug=True can be removed)
 if __name__ == "__main__":
     app.run(host ='0.0.0.0', port = 5001, debug = True)

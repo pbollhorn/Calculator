@@ -41,7 +41,7 @@ These commands have been tested with Docker Desktop for Windows. They are to be 
 
     `docker start calculator_container`
 
-5. Open http://localhost:5001/ in a browser to use the Flask app
+5. Open "http://localhost:5001/" in a browser to use the Flask app
 
 6. Stop Docker container:
 
