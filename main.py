@@ -20,6 +20,7 @@ def fun():
     return render_template("index.html", calculator_display=calculator.display)
 
 
-# Run the Flask app (debug=True can be removed)
+# Run the Flask app
+# (debug=True can be removed)
 if __name__ == "__main__":
     app.run(debug=True)
