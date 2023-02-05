@@ -1,5 +1,6 @@
 ## Scope of project:
 This project is a demonstration of a Python Flask web app put in a Docker image.
+
 The app is a calculator with 10 digits.
 
 
