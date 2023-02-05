@@ -1,4 +1,4 @@
-Calculator with 10 digits made as a Python Flask web app
+# H1 Calculator with 10 digits made as a Python Flask web app
 
 Files explained:
 
