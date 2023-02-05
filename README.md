@@ -4,20 +4,20 @@
 
 ## Files in repository explained:
 
-- #### Git files:
+#### Git files:
 - .gitignore          Tells git to ignore __pycache__ folder
 - README.md           This file, which describes the project
 
-- #### Python files:
+#### Python files:
 - calculator.py       All the code for the calculator
 - requirements.txt    File that lists the packages neccesary to install before running the Python program
 
-- ### Flask files:
+#### Flask files:
 - templates/index.html    HTML file which contains the GUI of the calculator
 - templates/              Directory for Flask HTML files
 - main.py                 The access point for the Flask app
 
-- ### Docker files:
+#### Docker files:
 - Dockerfile          The configuration file for creating the Docker image
 
 
