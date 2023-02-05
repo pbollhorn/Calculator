@@ -7,7 +7,7 @@ The app is a calculator with 10 digits.
 ## Project files explained:
 
 #### Git files:
-- .gitignore: Tells git to ignore __pycache__ folder
+- .gitignore: Tells git to ignore `__pycache__` folder
 - README.md: This file, which describes the project
 
 #### Python files:
