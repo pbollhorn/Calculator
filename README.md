@@ -1,8 +1,9 @@
-# Calculator with 10 digits made as a Python Flask web app
+## Scope of project:
+This project is a demonstration of a Python Flask web app put in a Docker image.
+The app is a calculator with 10 digits.
 
 
-
-## Files in repository explained:
+## Project files explained:
 
 #### Git files:
 - .gitignore          Tells git to ignore __pycache__ folder
@@ -22,10 +23,8 @@
 
 
 
-## Docker commands for Windows Terminal:
-Make sure this directory is the current directory.
-
-Command for building Docker image:
+## Docker commands:
+Command for building Docker image (make sure Windows Terminal is in root directory for this command):
 docker build --tag calculator_image .
 
 Command for creating Docker container:
