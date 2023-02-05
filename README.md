@@ -7,20 +7,20 @@ The app is a calculator with 10 digits.
 ## Project files explained:
 
 #### Git files:
-- .gitignore          Tells git to ignore __pycache__ folder
-- README.md           This file, which describes the project
+- .gitignore: Tells git to ignore __pycache__ folder
+- README.md: This file, which describes the project
 
 #### Python files:
-- calculator.py       All the code for the calculator
-- requirements.txt    File that lists the packages neccesary to install before running the Python program
+- calculator.py: All the code for the calculator
+- requirements.txt: File that lists the packages neccesary to install before running the Python program
 
 #### Flask files:
-- templates/index.html    HTML file which contains the GUI of the calculator
-- templates/              Directory for Flask HTML files
-- main.py                 The access point for the Flask app
+- templates/index.html: HTML file which contains the GUI of the calculator
+- templates:              Directory for Flask HTML files
+- main.py:                 The access point for the Flask app
 
 #### Docker files:
-- Dockerfile          The configuration file for creating the Docker image
+- Dockerfile:          Configuration file for creating the Docker image
 
 
 
