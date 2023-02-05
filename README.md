@@ -1,6 +1,6 @@
-# H1 Calculator with 10 digits made as a Python Flask web app
+# Calculator with 10 digits made as a Python Flask web app
 
-Files explained:
+## Files explained:
 
 Git:
 .gitignore          Tells git to ignore __pycache__ folder
@@ -20,7 +20,7 @@ Dockerfile          The configuration file for creating the Docker image
 
 
 
-Docker commands for Windows Terminal:
+## Docker commands for Windows Terminal:
 Make sure this directory is the current directory.
 
 Command for building Docker image:
