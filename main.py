@@ -22,4 +22,4 @@ def fun():
 
 # Run the Flask app (debug=True can be removed)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
