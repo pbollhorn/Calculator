@@ -25,24 +25,26 @@ It is made as a demonstration of a Python Flask web app put in a Docker image.
 
 ## Docker commands
 
-These commands have been tested with Docker Desktop for Windows. They are to be run in e.g. Windows command promt.
+These commands have been tested with Docker Desktop for Windows.
 
 1. Start Docker Desktop by clicking on desktop icon.
 
-2. Build Docker image (command promt must be in root directory of project for this command):
+2. Open a command prompt (e.g. CMD or PowerShell) and go to root directory of project.
+
+3. Build Docker image:
 
     `docker build --tag calculator_image .`
 
-3. Create Docker container and tell it to use port 5001:
+4. Create Docker container and tell it to use port 5001:
 
     `docker create --name calculator_container -p 5001:5001 calculator_image`
 
-4. Start Docker container:
+5. Start Docker container:
 
     `docker start calculator_container`
 
-5. Open "http://localhost:5001/" in a browser to use the Flask app
+6. Open "http://localhost:5001/" in a browser to use the Flask app.
 
-6. Stop Docker container:
+7. Stop Docker container:
 
     `docker stop calculator_container`
