@@ -12,7 +12,7 @@ It is made as a demonstration of a Python Flask web app put in a Docker image.
 
 
 #### Python files:
-- calculator.py:          All the code for the calculator
+- calculator.py:          The code for the calculator
 - requirements.txt:       List of Python packages necessary to install before the Python app can run (i.e. the Flask package)
 
 #### Docker files:
