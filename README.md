@@ -1,7 +1,7 @@
 ## Project summary
 This project is a calculator with 10 digits.
 
-It is made as a demonstration of a Python Flask web app put in a Docker image.
+It is a practice project for a Python Flask web app put in a Docker image.
 
 ## Project files explained
 
@@ -43,7 +43,7 @@ These commands have been tested with Docker Desktop for Windows.
 
     `docker start calculator_container`
 
-6. Open a browser to use the Flask app. Use one of these addresses:
+6. Open a browser to use the Flask app:
 
         "http://localhost:5001" or "http://127.0.0.1:5001"
 
