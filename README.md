@@ -35,7 +35,7 @@ They require Docker Desktop to be running and are to be typed in a terminal wind
 
     `docker build --tag calculator_image .`
 
-2. Create Docker container and tell it to use port 5001:
+2. Create Docker container from image and tell it to use port 5001:
 
     `docker create --name calculator_container -p 5001:5001 calculator_image`
 
