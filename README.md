@@ -6,21 +6,21 @@ It is made as a demonstration of a Python Flask web app put in a Docker image.
 ## Project files explained
 
 #### Flask files:
-- main.py:                 Python file to run to start the Flask app
-- templates:               Directory for HTML files used by the Flask app
-- templates/index.html:    HTML file which contains the GUI of the calculator
+- main.py:                Python file to run to start the Flask app
+- templates:              Directory for HTML files used by the Flask app
+- templates/index.html:   HTML file which contains the GUI of the calculator
 
 
 #### Python files:
-- calculator.py: All the code for the calculator
-- requirements.txt: List of Python packages necessary to install before the Python app can run (i.e. the Flask package)
+- calculator.py:          All the code for the calculator
+- requirements.txt:       List of Python packages necessary to install before the Python app can run (i.e. the Flask package)
 
 #### Docker files:
-- Dockerfile:          Configuration file for creating the Docker image
+- Dockerfile:             Configuration file for creating the Docker image
 
 #### Git files:
-- .gitignore: Tells git to ignore `__pycache__` directory
-- README.md: This README file which describes the project
+- .gitignore:             Tells Git to ignore `__pycache__` directory
+- README.md:              This README file which describes the project
 
 
 ## Docker commands
@@ -29,7 +29,7 @@ These commands have been tested with Docker Desktop for Windows.
 
 1. Start Docker Desktop by clicking on desktop icon.
 
-2. Open a command prompt (e.g. CMD or PowerShell) and go to root directory of project.
+2. Open a terminal window (e.g. Command Prompt or PowerShell) and go to root directory of project.
 
 3. Build Docker image:
 
@@ -43,7 +43,9 @@ These commands have been tested with Docker Desktop for Windows.
 
     `docker start calculator_container`
 
-6. Open "http://localhost:5001/" in a browser to use the Flask app.
+6. Open a browser to use the Flask app. Use one of these addresses:
+
+        "http://localhost:5001", "http://127.0.0.1:5001", "http://172.17.0.2:5001"
 
 7. Stop Docker container:
 
