@@ -29,7 +29,7 @@ These commands have been tested with Docker Desktop for Windows.
 
 They require Docker Desktop to be running and are to be typed in a terminal window (e.g. Command Prompt or PowerShell).
 
-#### Build image and container
+#### Build image and container:
 
 1. Build Docker image (terminal must be in root directory of project):
 
@@ -39,7 +39,7 @@ They require Docker Desktop to be running and are to be typed in a terminal wind
 
     `docker create --name calculator_container -p 5001:5001 calculator_image`
 
-#### Start/stop container
+#### Start/stop container:
 
 1. Start Docker container:
 
@@ -53,7 +53,7 @@ They require Docker Desktop to be running and are to be typed in a terminal wind
 
     `docker stop calculator_container`
 
-#### Save/load image from tar file
+#### Save/load image from tar file:
 
 - Save Docker image to tar file (terminal must be in directory where file should be saved):
 
