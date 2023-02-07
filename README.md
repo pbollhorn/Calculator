@@ -45,7 +45,7 @@ These commands have been tested with Docker Desktop for Windows.
 
 6. Open a browser to use the Flask app. Use one of these addresses:
 
-        "http://localhost:5001", "http://127.0.0.1:5001", "http://172.17.0.2:5001"
+        "http://localhost:5001" or "http://127.0.0.1:5001"
 
 7. Stop Docker container:
 
