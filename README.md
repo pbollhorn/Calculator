@@ -1,7 +1,7 @@
 ## Project summary
 This project is a calculator with 10 digits.
 
-It is made as a practice project for a Python Flask web app put in a Docker image.
+It is a demonstration of a Python Flask web app put in a Docker image.
 
 ## Project files explained
 
